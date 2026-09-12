@@ -921,7 +921,8 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    print("GuardFi v2 - Starting server...")
-    print("Dashboard: http://localhost:8090")
-    print("API Docs: http://localhost:8090/docs")
-    uvicorn.run(app, host="0.0.0.0", port=8090)
+    port = int(os.environ.get("PORT", 8090))
+    print(f"GuardFi v2 - Starting server on port {port}")
+    print(f"Dashboard: http://localhost:{port}")
+    print(f"API Docs: http://localhost:{port}/docs")
+    uvicorn.run(app, host="0.0.0.0", port=port)
