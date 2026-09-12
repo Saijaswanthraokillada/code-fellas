@@ -32,7 +32,15 @@ def init_db():
             password_hash TEXT NOT NULL,
             role TEXT DEFAULT 'officer',
             email TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            company TEXT,
+            session_token TEXT,
+            session_expires TEXT,
+            verification_status TEXT DEFAULT 'pending',
+            approved_by TEXT,
+            approved_at TIMESTAMP,
+            gmail_connected INTEGER DEFAULT 0,
+            gmail_email TEXT
         )
     """)
     
