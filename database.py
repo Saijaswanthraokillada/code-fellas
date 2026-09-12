@@ -61,7 +61,11 @@ def init_db():
             is_grounded INTEGER,
             total_latency_ms INTEGER,
             status TEXT DEFAULT 'completed',
-            scanned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            scanned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            ai_summary TEXT,
+            vendor_name TEXT,
+            amount_extracted REAL,
+            user_id INTEGER
         )
     """)
     
@@ -87,6 +91,9 @@ def init_db():
             rollback_deadline TIMESTAMP,
             proof_hash TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            user_id INTEGER,
+            confirmed_by_user INTEGER,
+            confirmed_at TIMESTAMP,
             FOREIGN KEY (document_id) REFERENCES scanned_documents(id)
         )
     """)
@@ -121,6 +128,7 @@ def init_db():
             transaction_id INTEGER,
             is_read INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            user_id INTEGER,
             FOREIGN KEY (document_id) REFERENCES scanned_documents(id),
             FOREIGN KEY (transaction_id) REFERENCES transactions(id)
         )
@@ -160,8 +168,11 @@ def init_db():
         VALUES ('admin', ?, 'admin', 'admin@guardfi.com', 'GuardFi Systems')
     """, [password_hash])
     
-    # No seed data - clean start for production
-    # Users register themselves, data comes from real usage
+    # Seed demo data on fresh database
+    cursor.execute("SELECT COUNT(*) FROM scanned_documents")
+    if cursor.fetchone()[0] == 0:
+        _seed_sample_data(cursor)
+        print("Demo data seeded successfully")
     
     conn.commit()
     conn.close()
