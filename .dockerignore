@@ -1,0 +1,13 @@
+.git
+.env
+.env.local
+__pycache__
+*.pyc
+*.db
+*.db-shm
+*.db-wal
+.freebuff
+.vscode
+.idea
+render.yaml
+Procfile

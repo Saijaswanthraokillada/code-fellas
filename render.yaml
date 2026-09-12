@@ -1,10 +1,8 @@
 services:
   - type: web
     name: guardfi
-    runtime: python
+    runtime: docker
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: python main.py
     envVars:
       - key: GEMINI_API_KEY
         sync: false
