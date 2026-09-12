@@ -222,7 +222,7 @@ async def simulate_incoming_email(data: dict):
         cursor.execute("""
             INSERT INTO scanned_documents 
             (request_id, filename, source_type, raw_text, injection_verdict, risk_score,
-             ai_intent, ai_confidence, is_grounded, ai_summary, vendor_name, amount_extracted)
+             ai_intent, ai_confidence, is_grounded, ai_summary, vendor_name, amount_extracted, user_id)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             f"EMAIL-{int(time.time() * 1000)}",
@@ -238,7 +238,7 @@ async def simulate_incoming_email(data: dict):
             email["vendor"],
             email["amount"],
             user["user_id"]
-        )
+        ))
         
         # Create notification for user
         cursor.execute("""
